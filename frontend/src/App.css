@@ -1,0 +1,41 @@
+body{
+  margin:0;
+  background:#08111f;
+  color:white;
+  font-family:Arial;
+}
+
+.app{
+  display:flex;
+  height:100vh;
+}
+
+.sidebar{
+  width:320px;
+  background:#101827;
+  padding:20px;
+}
+
+.card{
+  background:#1f2937;
+  padding:20px;
+  margin-top:20px;
+  border-radius:12px;
+}
+
+.map-section{
+  flex:1;
+  padding:20px;
+}
+
+.map-placeholder{
+  height:85vh;
+  border-radius:12px;
+  background:#172554;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  font-size:30px;
+}
