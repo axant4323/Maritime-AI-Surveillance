@@ -20,7 +20,7 @@ function VesselDetails({
     if (!vessel) return;
     setLoadingTrack(true);
     try {
-      const response = await fetch(`http://localhost:5000/api/vessels/${vessel.mmsi}/track`);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/vessels/${vessel.mmsi}/track`);
       if (response.ok) {
         const data = await response.json();
         setReplayTrack(data);

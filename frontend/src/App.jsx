@@ -8,6 +8,8 @@ import AlertPanel from "./components/AlertPanel";
 import VesselDetails from "./components/VesselDetails";
 import SarDashboard from "./pages/SarDashboard";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
 function App() {
   const [activePage, setActivePage] = useState("live");
   const [vessels, setVessels] = useState({});
@@ -40,9 +42,9 @@ function App() {
     const fetchInitialData = async () => {
       try {
         const [vesselsRes, alertsRes, statsRes] = await Promise.all([
-          fetch("http://localhost:5000/api/vessels"),
-          fetch("http://localhost:5000/api/alerts"),
-          fetch("http://localhost:5000/api/statistics")
+          fetch(`${API_BASE_URL}/api/vessels`),
+          fetch(`${API_BASE_URL}/api/alerts`),
+          fetch(`${API_BASE_URL}/api/statistics`)
         ]);
 
         if (vesselsRes.ok) {
@@ -74,7 +76,7 @@ function App() {
   useEffect(() => {
     const interval = setInterval(async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/statistics");
+        const response = await fetch(`${API_BASE_URL}/api/statistics`);
         if (response.ok) {
           const data = await response.json();
           setStats(data);
@@ -127,7 +129,7 @@ function App() {
 
   const handleClearAlerts = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/alerts/clear", { method: "POST" });
+      const response = await fetch(`${API_BASE_URL}/api/alerts/clear`, { method: "POST" });
       if (response.ok) {
         setAlerts([]);
         setStats(prev => ({ ...prev, criticalAlerts: 0 }));
@@ -143,7 +145,7 @@ function App() {
       handleSelectVessel(vessel);
     } else {
       try {
-        const res = await fetch(`http://localhost:5000/api/vessels/${mmsi}`);
+        const res = await fetch(`${API_BASE_URL}/api/vessels/${mmsi}`);
         if (res.ok) {
           const vData = await res.json();
           handleSelectVessel(vData);
@@ -160,7 +162,7 @@ function App() {
     setReplayTrack([]);
     
     try {
-      const res = await fetch(`http://localhost:5000/api/vessels/${vessel.mmsi}/track`);
+      const res = await fetch(`${API_BASE_URL}/api/vessels/${vessel.mmsi}/track`);
       if (res.ok) {
         const track = await res.json();
         setReplayTrack(track);

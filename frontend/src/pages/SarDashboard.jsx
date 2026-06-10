@@ -62,7 +62,7 @@ function SarDashboard({ vessels = [] }) {
     setIsDetecting(true);
     try {
       // Call the backend API
-      const response = await fetch("http://localhost:5000/api/sar/detect", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/sar/detect`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ fileId: "mock-uploaded-file-id" }) // Mock file ID

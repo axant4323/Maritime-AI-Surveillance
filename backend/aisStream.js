@@ -4,6 +4,9 @@ const Track = require("./models/Track");
 const { analyzeVessel } = require("./services/threatEngine");
 
 function startAISStream(io, apiKey, vesselCache) {
+  console.log("AIS Stream starting...");
+  console.log("API key present:", !!apiKey);
+  
   if (!apiKey) {
     console.warn("AISStream API Key missing. Skipping live stream connection.");
     return;
@@ -26,6 +29,7 @@ function startAISStream(io, apiKey, vesselCache) {
 
   ws.on("message", async (data) => {
     try {
+      console.log("Received AIS message");
       const rawMsg = JSON.parse(data.toString());
       if (!rawMsg || !rawMsg.Message) return;
 

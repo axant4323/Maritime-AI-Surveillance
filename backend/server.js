@@ -14,7 +14,13 @@ const alertRouter = require("./routes/alertRoutes");
 const statsRouter = require("./routes/statsRoutes");
 
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: [
+        "http://localhost:5173",
+        "https://maritime-ai-surveillance.vercel.app"
+    ],
+    credentials: true
+}));
 app.use(express.json());
 
 // In-memory vessel cache
@@ -24,7 +30,11 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "*"
+    origin: [
+        "http://localhost:5173",
+        "https://maritime-ai-surveillance.vercel.app"
+    ],
+    credentials: true
   }
 });
 
