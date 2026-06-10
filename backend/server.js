@@ -15,11 +15,11 @@ const statsRouter = require("./routes/statsRoutes");
 
 const app = express();
 app.use(cors({
-    origin: [
-        "http://localhost:5173",
-        "https://maritime-ai-surveillance.vercel.app"
-    ],
-    credentials: true
+  origin: [
+    "http://localhost:5173",
+    "https://maritime-ai-surveillance.vercel.app"
+  ],
+  credentials: true
 }));
 app.use(express.json());
 
@@ -31,8 +31,8 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: [
-        "http://localhost:5173",
-        "https://maritime-ai-surveillance.vercel.app"
+      "http://localhost:5173",
+      "https://maritime-ai-surveillance.vercel.app"
     ],
     credentials: true
   }
@@ -49,7 +49,7 @@ app.use("/api/sar", sarRouter);
 
 io.on("connection", (socket) => {
   console.log("Frontend Connected:", socket.id);
-  
+
   // Send current vessel cache immediately on connection
   socket.emit("initial-vessels", Array.from(vesselCache.values()));
 
