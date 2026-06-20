@@ -31,7 +31,8 @@ async function analyzeVessel(vesselData, prevVessel, io) {
   
   // 1. Call Python AI Microservice
   try {
-    const response = await fetch("http://localhost:5001/predict", {
+    const aiServiceUrl = process.env.AI_SERVICE_URL || "http://localhost:5001";
+    const response = await fetch(`${aiServiceUrl}/predict`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
