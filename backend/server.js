@@ -14,14 +14,24 @@ const alertRouter = require("./routes/alertRoutes");
 const statsRouter = require("./routes/statsRoutes");
 
 const app = express();
-app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://maritime-ai-surveillance.vercel.app",
-    process.env.FRONTEND_URL
-  ].filter(Boolean),
+const corsOptions = {
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      "http://localhost:5173",
+      "https://maritime-ai-surveillance.vercel.app",
+      process.env.FRONTEND_URL
+    ].filter(Boolean);
+    
+    if (!origin || allowedOrigins.includes(origin) || origin.endsWith(".vercel.app")) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true
-}));
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // In-memory vessel cache
@@ -30,14 +40,7 @@ const vesselCache = new Map();
 const server = http.createServer(app);
 
 const io = new Server(server, {
-  cors: {
-    origin: [
-      "http://localhost:5173",
-      "https://maritime-ai-surveillance.vercel.app",
-      process.env.FRONTEND_URL
-    ].filter(Boolean),
-    credentials: true
-  }
+  cors: corsOptions
 });
 
 const sarRouter = require("./routes/sarRoutes")(io, vesselCache);
