@@ -17,8 +17,9 @@ const app = express();
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://maritime-ai-surveillance.vercel.app"
-  ],
+    "https://maritime-ai-surveillance.vercel.app",
+    process.env.FRONTEND_URL
+  ].filter(Boolean),
   credentials: true
 }));
 app.use(express.json());
@@ -32,8 +33,9 @@ const io = new Server(server, {
   cors: {
     origin: [
       "http://localhost:5173",
-      "https://maritime-ai-surveillance.vercel.app"
-    ],
+      "https://maritime-ai-surveillance.vercel.app",
+      process.env.FRONTEND_URL
+    ].filter(Boolean),
     credentials: true
   }
 });
